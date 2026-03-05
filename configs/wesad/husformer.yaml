@@ -1,0 +1,45 @@
+# Husformer on WESAD (Baseline) - with balanced class weights
+# Cross-modal attention transformer
+
+dataset:
+  name: wesad
+  data_dir: data/wesad
+  n_classes: 3
+  context_length: 1
+  causal: true
+  modality_names: [GSR_chest, BVP_wrist, EMG_chest, ECG_chest, RESP_chest, GSR_wrist]
+  modality_rates: [700, 64, 700, 700, 700, 4]
+
+model:
+  name: husformer
+  model_cfg:
+    modality_specific_encoder:
+      num_heads: 5
+      layers: 5
+      attn_dropout: 0.05
+      relu_dropout: 0.1
+      res_dropout: 0.1
+      out_dropout: 0.1
+      embed_dropout: 0.1
+      attn_mask: true
+    trans_final:
+      fusion_type: concat
+      num_heads: 5
+      layers: 5
+      attn_dropout: 0.05
+      relu_dropout: 0.1
+      res_dropout: 0.1
+      embed_dropout: 0.1
+      attn_mask: true
+
+training:
+  batch_size: 32
+  lr: 0.001
+  epochs: 100
+  patience: 20
+  grad_clip: 1.0
+  seed: 42
+  num_workers: 0
+  loss_type: ce
+  class_weights: balanced
+  results_dir: results/wesad/husformer

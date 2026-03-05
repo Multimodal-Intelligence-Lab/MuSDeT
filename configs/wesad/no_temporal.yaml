@@ -1,0 +1,34 @@
+# Ablation: Identity head, ctx=1 (removes temporal modeling)
+dataset:
+  name: wesad
+  data_dir: data/wesad
+  n_classes: 3
+  context_length: 1
+  causal: true
+  modality_names: [GSR_chest, BVP_wrist, EMG_chest, ECG_chest, RESP_chest, GSR_wrist]
+  modality_rates: [700, 64, 700, 700, 700, 4]
+
+model:
+  name: coinfo_gru
+  embed_dim: 30
+  hidden_channels: 32
+  encoder_type: multiscale_cnn
+  fusion_type: simple
+  temporal_type: identity
+  temporal_hidden: 128
+  temporal_layers: 2
+  dropout: 0.3
+
+training:
+  batch_size: 256
+  lr: 0.001
+  epochs: 100
+  patience: 10
+  grad_clip: 1.0
+  seed: 42
+  label_smoothing: 0.1
+  weight_decay: 0.0001
+  num_workers: 0
+  loss_type: ce
+  class_weights: balanced
+  results_dir: results/wesad/no_temporal

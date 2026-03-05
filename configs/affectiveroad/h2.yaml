@@ -1,0 +1,25 @@
+# H2 on AffectiveROAD (Baseline) - with balanced class weights
+
+dataset:
+  name: affectiveroad
+  data_dir: data/affectiveroad
+  n_classes: 2
+  context_length: 1
+  causal: true
+  modality_names: [Left_BVP, Left_EDA, Left_HR, Left_TEMP, Right_BVP, Right_EDA, Right_HR, Right_TEMP]
+  modality_rates: [64, 4, 1, 4, 64, 4, 1, 4]
+
+model:
+  name: h2
+
+training:
+  batch_size: 256
+  lr: 0.001
+  epochs: 100
+  patience: 20
+  grad_clip: 1.0
+  seed: 42
+  num_workers: 0
+  loss_type: ce
+  class_weights: balanced
+  results_dir: results/affectiveroad/h2

@@ -1,0 +1,26 @@
+# H2 (ConvHyperNet) on WESAD (Baseline) - with balanced class weights
+# Hypercomplex network with PHMLinear layers
+
+dataset:
+  name: wesad
+  data_dir: data/wesad
+  n_classes: 3
+  context_length: 1
+  causal: true
+  modality_names: [GSR_chest, BVP_wrist, EMG_chest, ECG_chest, RESP_chest, GSR_wrist]
+  modality_rates: [700, 64, 700, 700, 700, 4]
+
+model:
+  name: h2
+
+training:
+  batch_size: 256
+  lr: 0.001
+  epochs: 100
+  patience: 20
+  grad_clip: 1.0
+  seed: 42
+  num_workers: 0
+  loss_type: ce
+  class_weights: balanced
+  results_dir: results/wesad/h2
